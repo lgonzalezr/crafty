@@ -148,17 +148,72 @@ Before creating any new file in `company/execution/`:
 
 ## 8. Agent Roles
 
-| Agent    | File                      | Responsibility                            |
-|----------|---------------------------|-------------------------------------------|
-| Planner  | `crafty/agents/planner.md`  | Reads OKRs, proposes initiatives/projects |
-| Operator | `crafty/agents/operator.md` | Executes tasks, writes code/docs          |
+| Agent | File | Responsibility |
+| --- | --- | --- |
+| **Crafty** | `crafty/agents/crafty.md` | Root orchestrator — reads intent, routes to sub-agents |
+| **Discoverer** | `crafty/agents/discoverer.md` | Interviews the author to define company identity files |
+| Planner | `crafty/agents/planner.md` | Reads OKRs, proposes initiatives and projects |
+| Operator | `crafty/agents/operator.md` | Executes tasks, writes code and docs |
 | Reviewer | `crafty/agents/reviewer.md` | Validates output, updates logs, adjusts direction |
 
-When acting as an agent, always read the corresponding role file first.
+When acting as an agent, always read the corresponding role file first. Sub-agents (Discoverer, Planner, Operator, Reviewer) should also read `framework.md` for workspace rules.
+
+The **Crafty** orchestrator is the recommended entry point for all sessions. It reads current state, infers intent, and routes to the appropriate sub-agent rather than requiring the author to invoke sub-agents directly.
 
 ---
 
-## 9. Execution Loop
+## 9. Orchestrator Routing
+
+The Crafty orchestrator maps author intent to sub-agents:
+
+| Author intent | Routed to |
+| --- | --- |
+| Define company, identify customers, positioning, vision | Discoverer |
+| Plan quarter, review OKRs, propose initiatives | Planner |
+| Execute a task, build, write, implement | Operator |
+| Review progress, validate work, weekly review | Reviewer |
+
+OKRs must not be set until `vision.md`, `problem.md`, and `positioning.md` are complete. Crafty enforces this gate.
+
+---
+
+## 10. Invocation Patterns
+
+There are two ways to start a session:
+
+### Option A — Prompt Files (recommended for VS Code Copilot)
+
+Prompt files live in `.github/prompts/`. Each maps to one agent. Invoke with the **Attach Context → Prompt** button or by typing `#` in chat.
+
+| Prompt File | Invokes | When to use |
+| --- | --- | --- |
+| `crafty.prompt.md` | Crafty orchestrator | Start of any session — let Crafty decide what's next |
+| `discover.prompt.md` | Discoverer | When you want to define or refine company identity |
+| `plan.prompt.md` | Planner | When you want to plan work for the quarter |
+| `execute.prompt.md` | Operator | When you want to execute the current priority task |
+| `review.prompt.md` | Reviewer | When you want to review and validate recent work |
+
+Prompt files are also portable — the same content can be pasted as a system prompt in Claude (Projects), added as a Cursor rule, or used in any LLM interface that accepts a system prompt.
+
+### Option B — Direct Agent Invocation (any LLM)
+
+In any chat interface, say:
+
+```
+Read crafty/agents/crafty.md and crafty/instructions/framework.md. Act as the Crafty orchestrator.
+```
+
+Or for a specific sub-agent:
+
+```
+Read crafty/agents/discoverer.md, crafty/instructions/discovery-protocol.md, and crafty/instructions/framework.md. Act as the Discoverer agent.
+```
+
+This works in any LLM that can read files — VS Code Copilot, Claude, Cursor, ChatGPT with file access, etc.
+
+---
+
+## 11. Execution Loop
 
 Every work session follows this loop:
 
@@ -176,13 +231,13 @@ Do not skip steps. Do not execute work that isn't in the loop.
 
 ---
 
-## 10. Validation
+## 12. Validation
 
 Run `python crafty/scripts/validate.py` to validate all execution files against their JSON Schemas in `crafty/schemas/`. A file with invalid YAML or broken traceability must be fixed before marking any work done.
 
 ---
 
-## 11. New Workspace Initialization
+## 13. New Workspace Initialization
 
 `crafty/` is a standalone git repository (the framework). `company/` is a separate git repository (company state). They live as siblings inside a plain root folder.
 
@@ -206,9 +261,7 @@ After init, open the root folder in VS Code and begin filling in identity files 
 
 ---
 
-## 12. Workspace Configuration
-
-Instance-specific settings live in `crafty/config.yaml`. Read this file before:
+## 14. Workspace Configuration
 
 - Creating a new project file (to resolve `repo_local` against `repos_root`)
 - Resolving any filesystem path to a source code repository
@@ -230,7 +283,7 @@ Key settings:
 
 ---
 
-## 12. Hard Rules
+## 15. Hard Rules
 
 - If it doesn't map upward to an Objective → it shouldn't exist.
 - If YAML is incomplete → reject the output and fix it first.
