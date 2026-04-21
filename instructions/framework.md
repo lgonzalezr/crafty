@@ -174,7 +174,7 @@ python crafty/scripts/init.py
 
 - Write `crafty/config.yaml` (gitignored — instance-specific)
 - Scaffold the full `company/` folder tree with starter files
-- Create `.github/copilot-instructions.md`
+- Create `company/.github/copilot-instructions.md`
 
 After init, open the root folder in VS Code and begin filling in identity files and OKRs.
 

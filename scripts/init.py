@@ -328,7 +328,7 @@ def scaffold(root: str, ctx: dict) -> None:
     write(os.path.join(root, "company", "state",     "decisions.md"),          decisions_md(ctx))
     write(os.path.join(root, "company", "logs",      "decisions-log.md"),      decisions_log_md(ctx))
     write(os.path.join(root, "company", "logs",      "weekly-review.md"),      weekly_review_md(ctx))
-    write(os.path.join(root, ".github", "copilot-instructions.md"),            copilot_instructions_md(ctx))
+    write(os.path.join(root, "company", ".github",  "copilot-instructions.md"), copilot_instructions_md(ctx))
 
     print(f"""
 Done. Next steps:
