@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "initiative.schema.json",
+  "title": "Initiative",
+  "description": "A body of work intended to move a Key Result.",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "status",
+    "objective",
+    "key_result",
+    "owner",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^INIT-\\d{3}$",
+      "description": "Unique Initiative ID. Format: INIT-001"
+    },
+    "type": {
+      "const": "initiative"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused", "done", "dropped"],
+      "description": "Lifecycle state. Use 'dropped' when killed due to no KR impact."
+    },
+    "objective": {
+      "type": "string",
+      "pattern": "^O-\\d{3}$",
+      "description": "ID of the parent Objective."
+    },
+    "key_result": {
+      "type": "string",
+      "pattern": "^KR-\\d{3}$",
+      "description": "ID of the Key Result this initiative is designed to move."
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

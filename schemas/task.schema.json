@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "task.schema.json",
+  "title": "Task",
+  "description": "Atomic unit of work executed by an agent or team member.",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "status",
+    "objective",
+    "key_result",
+    "initiative",
+    "project",
+    "owner",
+    "priority",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^TASK-\\d{3}$",
+      "description": "Unique Task ID. Format: TASK-001"
+    },
+    "type": {
+      "const": "task"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short, action-oriented description of the work."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["todo", "in_progress", "blocked", "done"],
+      "description": "Current execution state."
+    },
+    "objective": {
+      "type": "string",
+      "pattern": "^O-\\d{3}$",
+      "description": "ID of the Objective this task ultimately serves."
+    },
+    "key_result": {
+      "type": "string",
+      "pattern": "^KR-\\d{3}$",
+      "description": "ID of the Key Result this task contributes to."
+    },
+    "initiative": {
+      "type": "string",
+      "pattern": "^INIT-\\d{3}$",
+      "description": "ID of the Initiative this task belongs to."
+    },
+    "project": {
+      "type": "string",
+      "pattern": "^PROJ-\\d{3}$",
+      "description": "ID of the Project this task belongs to."
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Agent or person responsible. Use 'agent:operator' for automated tasks."
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Execution priority."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

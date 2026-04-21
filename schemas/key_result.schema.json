@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "key_result.schema.json",
+  "title": "Key Result",
+  "description": "Measurable outcome linked to a strategic objective.",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "objective",
+    "metric",
+    "baseline",
+    "target",
+    "unit",
+    "status",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^KR-\\d{3}$",
+      "description": "Unique Key Result ID. Format: KR-001"
+    },
+    "type": {
+      "const": "key_result"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concise description of what is being measured."
+    },
+    "objective": {
+      "type": "string",
+      "pattern": "^O-\\d{3}$",
+      "description": "ID of the parent Objective."
+    },
+    "metric": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What is being measured (e.g. 'MRR', 'active users', 'churn rate')."
+    },
+    "baseline": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Starting value at the time this KR was defined."
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Goal value to achieve by end of timeframe."
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unit of measurement (e.g. '$', '%', 'count')."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused", "done"],
+      "description": "Lifecycle state of this Key Result."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

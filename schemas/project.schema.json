@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "project.schema.json",
+  "title": "Project",
+  "description": "A scoped deliverable that belongs to an Initiative.",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "status",
+    "initiative",
+    "objective",
+    "key_result",
+    "owner",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^PROJ-\\d{3}$",
+      "description": "Unique Project ID. Format: PROJ-001"
+    },
+    "type": {
+      "const": "project"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["todo", "in_progress", "blocked", "done"]
+    },
+    "initiative": {
+      "type": "string",
+      "pattern": "^INIT-\\d{3}$",
+      "description": "ID of the parent Initiative."
+    },
+    "objective": {
+      "type": "string",
+      "pattern": "^O-\\d{3}$",
+      "description": "ID of the parent Objective."
+    },
+    "key_result": {
+      "type": "string",
+      "pattern": "^KR-\\d{3}$",
+      "description": "ID of the Key Result this project contributes to."
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "repo_url": {
+      "type": "string",
+      "description": "Remote URL of the source code repository (e.g. https://github.com/org/repo)."
+    },
+    "repo_local": {
+      "type": "string",
+      "description": "Repository folder name relative to repos_root in crafty/config.yaml (e.g. my-app)."
+    }
+  }
+}

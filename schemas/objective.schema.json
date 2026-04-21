@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "objective.schema.json",
+  "title": "Objective",
+  "description": "Strategic objective in the OKR system.",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "status",
+    "owner",
+    "timeframe",
+    "key_results",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^O-\\d{3}$",
+      "description": "Unique objective ID. Format: O-001"
+    },
+    "type": {
+      "const": "objective"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short, directional, qualitative statement of intent."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "paused", "done"],
+      "description": "Lifecycle state of the objective. Use 'draft' during planning phase."
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Person or role accountable for this objective."
+    },
+    "timeframe": {
+      "type": "string",
+      "pattern": "^\\d{4}-Q[1-4]$",
+      "description": "Quarter this objective belongs to. Format: 2026-Q2"
+    },
+    "key_results": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^KR-\\d{3}$"
+      },
+      "description": "List of Key Result IDs linked to this objective."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of creation. Format: YYYY-MM-DD"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of last update. Format: YYYY-MM-DD"
+    }
+  }
+}
