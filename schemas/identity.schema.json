@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "identity.schema.json",
+  "title": "Identity File",
+  "description": "Validates any file under company/identity/. Each section has its own required fields.",
+  "type": "object",
+  "required": ["type", "section", "updated_at"],
+  "properties": {
+    "type": {
+      "const": "identity"
+    },
+    "section": {
+      "type": "string",
+      "enum": [
+        "vision",
+        "problem",
+        "positioning",
+        "icp",
+        "business_model",
+        "gtm",
+        "principles",
+        "culture"
+      ],
+      "description": "Which identity section this file represents. One file per section."
+    },
+    "updated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date the file was last updated. Format: YYYY-MM-DD"
+    }
+  },
+  "additionalProperties": false
+}
