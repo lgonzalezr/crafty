@@ -285,6 +285,25 @@ def weekly_review_md(ctx: dict) -> str:
 """
 
 
+def code_workspace(ctx: dict) -> str:
+    name = ctx['company_name'].replace(' ', '')
+    return f"""\
+{{
+  "folders": [
+    {{
+      "name": "Crafty",
+      "path": "./crafty"
+    }},
+    {{
+      "name": "{name}",
+      "path": "./company"
+    }}
+  ],
+  "settings": {{}}
+}}
+"""
+
+
 def copilot_instructions_md(_ctx: dict) -> str:
     return """\
 # Copilot Workspace Instructions
@@ -330,11 +349,14 @@ def scaffold(root: str, ctx: dict) -> None:
     write(os.path.join(root, "company", "logs",      "weekly-review.md"),      weekly_review_md(ctx))
     write(os.path.join(root, "company", ".github",  "copilot-instructions.md"), copilot_instructions_md(ctx))
 
+    workspace_name = ctx['company_name'].replace(' ', '')
+    write(os.path.join(root, f"{workspace_name}.code-workspace"),              code_workspace(ctx))
+
     print(f"""
 Done. Next steps:
   1. Fill in company/identity/ files with your vision, principles, and business model.
   2. Define your first OKR in company/strategy/okr/{ctx['quarter']}.md.
-  3. Open {root} in VS Code and start the agent loop.
+  3. Open {workspace_name}.code-workspace in VS Code and start the agent loop.
 """)
 
 
